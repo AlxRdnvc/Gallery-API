@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class UserController extends Controller
 {
@@ -44,9 +45,11 @@ class UserController extends Controller
 
 
         return User::create([
-            'name' => $request->name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'accepted_terms_and_conditions' => $request->accepted_terms_and_conditions,
             'remember_token' => str_random(10)
         ]);
     }

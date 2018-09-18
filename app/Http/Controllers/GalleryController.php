@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Gallery;
+use App\User;
+use App\Image;
+
 
 class GalleryController extends Controller
 {
@@ -13,7 +17,7 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        return Gallery::all();
+        return Gallery::with('images', 'user')->orderBy('created_at','desc')->get();
     }
 
     /**
@@ -43,7 +47,7 @@ class GalleryController extends Controller
         $gallery = new Gallery();
         $gallery->gallery_name = $request['gallery_name'];
         $gallery->description = $request['description'];
-        $gallery->user_id = request()->user_id;
+        $gallery->user_id = Auth()->user()->id;
         $gallery->save();
     }
 
@@ -56,7 +60,12 @@ class GalleryController extends Controller
      */
     public function show($id)
     {
-        //
+        return Gallery::with('images', 'user', 'comments')->findOrFail($id);
+    }
+
+    public function AuthorGalleries($id)
+    {
+        return Gallery::where('user_id', $id)->with('images', 'user')->get();
     }
 
     /**
