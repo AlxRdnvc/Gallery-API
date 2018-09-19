@@ -41,7 +41,9 @@ class GalleryController extends Controller
 
         $request->validate([
             'gallery_name' => 'required|min:2|max:255',
-            'description' => 'max:1000', 
+            'description' => 'max:1000',
+            'images' => 'required',
+            'images.*' => ['required', 'url']
         ]); 
 
         $gallery = new Gallery();
@@ -49,6 +51,15 @@ class GalleryController extends Controller
         $gallery->description = $request['description'];
         $gallery->user_id = Auth()->user()->id;
         $gallery->save();
+
+        $images = [];
+        foreach ($request->images as $image) {
+           array_push($images, new Image([
+               'image_url' => $image,
+               'gallery_id' => $gallery->id
+               ]));
+        }
+        $gallery->images()->saveMany($images);
     }
 
 
@@ -64,6 +75,11 @@ class GalleryController extends Controller
     }
 
     public function AuthorGalleries($id)
+    {
+        return Gallery::where('user_id', $id)->with('images', 'user')->get();
+    }
+
+    public function UserGalleries($id)
     {
         return Gallery::where('user_id', $id)->with('images', 'user')->get();
     }

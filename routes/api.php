@@ -30,4 +30,7 @@ function ($router) {
     Route::get('galleries', 'GalleryController@index');
     Route::get('galleries/{id}', 'GalleryController@show');
     Route::get('authors/{id}', 'GalleryController@AuthorGalleries');
+    Route::post('galleries', 'GalleryController@store');
+    Route::get('my-galleries/{id}', 'GalleryController@UserGalleries');
+
 });
