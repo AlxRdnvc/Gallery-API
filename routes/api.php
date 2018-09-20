@@ -31,6 +31,10 @@ function ($router) {
     Route::get('galleries/{id}', 'GalleryController@show');
     Route::get('authors/{id}', 'GalleryController@AuthorGalleries');
     Route::post('galleries', 'GalleryController@store');
-    Route::get('my-galleries/{id}', 'GalleryController@UserGalleries');
+    Route::get('my-galleries', 'GalleryController@UserGalleries');
+    Route::delete('galleries/{id}', 'GalleryController@destroy');
+
+    Route::post('comments', 'CommentController@store');
+    Route::delete('comments/{id}', 'CommentController@destroy');
 
 });

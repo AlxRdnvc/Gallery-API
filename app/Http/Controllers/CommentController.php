@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Comment;
 
 class CommentController extends Controller
 {
@@ -41,7 +42,11 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->content = $request->input('content');
         $comment->gallery_id = $request->input('gallery_id');
-        $comment->user_id = auth()->user()->id;
+        $comment->user_id = Auth()->user()->id;
+        $comment->load('user');
+        $comment->save();
+
+        return $comment;
     }
 
     /**
@@ -86,6 +91,6 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Comment::destroy($id);
     }
 }

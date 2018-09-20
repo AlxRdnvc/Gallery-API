@@ -71,7 +71,7 @@ class GalleryController extends Controller
      */
     public function show($id)
     {
-        return Gallery::with('images', 'user', 'comments')->findOrFail($id);
+        return Gallery::with('images', 'user', 'comments.user')->findOrFail($id);
     }
 
     public function AuthorGalleries($id)
@@ -79,8 +79,9 @@ class GalleryController extends Controller
         return Gallery::where('user_id', $id)->with('images', 'user')->get();
     }
 
-    public function UserGalleries($id)
+    public function UserGalleries()
     {
+        $id= Auth()->user()->id;
         return Gallery::where('user_id', $id)->with('images', 'user')->get();
     }
 
@@ -115,6 +116,6 @@ class GalleryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Gallery::destroy($id);
     }
 }

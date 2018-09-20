@@ -40,9 +40,12 @@ class AuthController extends Controller
     // Get the token array structure.
     protected function respondWithToken($token)
     {
+        $user = auth()->user();
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
+            'userId' => $user->id,
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }

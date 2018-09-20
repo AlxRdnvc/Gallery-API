@@ -44,7 +44,7 @@ class UserController extends Controller
         ]);
 
 
-        return User::create([
+        $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
@@ -52,6 +52,8 @@ class UserController extends Controller
             'accepted_terms_and_conditions' => $request->accepted_terms_and_conditions,
             'remember_token' => str_random(10)
         ]);
+
+        return $user;
     }
 
     /**
