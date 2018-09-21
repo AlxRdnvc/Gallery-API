@@ -43,7 +43,7 @@ class GalleryController extends Controller
             'gallery_name' => 'required|min:2|max:255',
             'description' => 'max:1000',
             'images' => 'required',
-            'images.*' => ['required', 'url']
+            'images.*' => ['regex:/^(http)?s?:?(\/\/[^\']*\.(?:png|jpg|jpeg))/']
         ]); 
 
         $gallery = new Gallery();
@@ -76,13 +76,13 @@ class GalleryController extends Controller
 
     public function AuthorGalleries($id)
     {
-        return Gallery::where('user_id', $id)->with('images', 'user')->get();
+        return Gallery::where('user_id', $id)->with('images', 'user')->orderBy('created_at','desc')->get();
     }
 
     public function UserGalleries()
     {
         $id= Auth()->user()->id;
-        return Gallery::where('user_id', $id)->with('images', 'user')->get();
+        return Gallery::where('user_id', $id)->with('images', 'user')->orderBy('created_at','desc')->get();
     }
 
     /**
