@@ -17,7 +17,7 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        return Gallery::with('images', 'user')->orderBy('created_at','desc')->get();
+        return Gallery::with('images', 'user')->orderBy('created_at','desc')->paginate(10);
     }
 
     /**
