@@ -42,7 +42,7 @@ class GalleryController extends Controller
         $request->validate([
             'gallery_name' => 'required|min:2|max:255',
             'description' => 'max:1000',
-            'images' => 'required',
+            'images' => 'required|array|min:1',
             'images.*' => ['regex:/^(http)?s?:?(\/\/[^\']*\.(?:png|jpg|jpeg))/']
         ]); 
 
